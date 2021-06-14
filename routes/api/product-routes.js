@@ -60,7 +60,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update product
+// update product (expects tagIds)
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -95,10 +95,12 @@ router.put('/:id', (req, res) => {
         ProductTag.bulkCreate(newProductTags),
       ]);
     })
-    .then((updatedProductTags) => res.json(updatedProductTags))
+    .then((updatedProductTags) => res.status(200).json(updatedProductTags))
     .catch((err) => {
-      // console.log(err);
-      res.status(400).json(err);
+      if (err) {
+        // console.log(err);
+        res.status(400).json(err);
+      }
     });
 });
 
